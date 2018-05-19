@@ -1,0 +1,14 @@
+<div class="col-sm-12">
+  <div style="display: flex; justify-content: center; align-items: center" class="mt-5">
+    <form class="form-group" [formGroup]="form" (ngSubmit)="onSubmit()">
+      <label for="name">Имя</label>
+      <input  id="name" type="text" class="form-control" placeholder="Введите имя" formControlName="name">
+      <label for="password">Пароль</label>
+      <input  id="password" type="text" class="form-control" placeholder="Введите имя" formControlName="password">
+      <label for="phone">Телефон</label>
+      <input  id="phone" type="text" class="form-control" placeholder="Введите имя" formControlName="phone">
+      <input type="submit" value="Зарегестрироваться" class="btn btn-outline-success mt-3" [disabled]="form.invalid">
+    </form>
+  </div>
+</div>
+
