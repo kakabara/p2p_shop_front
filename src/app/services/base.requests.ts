@@ -8,14 +8,13 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 export class BaseRequests {
   baseUrl = 'http://127.0.0.1:5000/';
   headers: HttpHeaders = new HttpHeaders({
-    'authToken': localStorage.getItem('authToken')
+    'X-Auth-Token': localStorage.getItem('authToken')
   });
   options = {headers: this.headers};
 
   constructor(private http: HttpClient) {}
 
   public get(path: string) {
-  console.log(url.resolve(this.baseUrl, path));
     return this.http.get(
       url.resolve(this.baseUrl, path),
       this.options

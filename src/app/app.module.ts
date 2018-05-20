@@ -7,11 +7,14 @@ import {ProductsListComponent} from './products-list/products-list.component';
 import { WidgetLastCommentaryComponent } from './widget-last-commentary/widget-last-commentary.component';
 import {ProductsService} from './services/products.service';
 import {BaseRequests} from './services/base.requests';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { ProductPageComponent } from './product-page/product-page.component';
+
+
 
 const routes: Routes = [
   {
@@ -22,6 +25,9 @@ const routes: Routes = [
       },
       {
         path: 'registration', component: RegistrationComponent
+      },
+      {
+        path: 'products/:product_id', component: ProductPageComponent
       }
     ]
   }
@@ -34,7 +40,9 @@ const routes: Routes = [
     ProductsListComponent,
     WidgetLastCommentaryComponent,
     LayoutComponent,
-    RegistrationComponent
+    RegistrationComponent,
+    ProductPageComponent,
+
   ],
   imports: [
     BrowserModule,
@@ -42,7 +50,10 @@ const routes: Routes = [
     ReactiveFormsModule,
     RouterModule.forRoot(routes)
   ],
-  providers: [ProductsService, BaseRequests],
+  providers: [
+    ProductsService,
+    BaseRequests,
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

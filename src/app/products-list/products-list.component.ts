@@ -1,17 +1,17 @@
 import {Component, OnInit} from '@angular/core';
-import {BaseRequests} from '../services/base.requests';
 import {ProductsService} from '../services/products.service';
+import {ProductModel} from '../models/product-model';
 
 @Component({
   selector: 'app-products-list',
   template: `
-    <div class="row ml-1">
-      <div class="card" style="width: 18rem;">
-        <img class="card-img-top" src=".../100px180/" alt="Card image cap">
+    <div class="row ml-4 mt-4">
+      <div *ngFor="let product of products" class="card mt-3 mr-3">
+        <img class="card-img-top" src="http://127.0.0.1:5000/images/{{product.image_hash}}" alt="Card image cap">
         <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
+          <h5 class="card-title">{{product.name}}</h5>
+          <p class="card-text">{{product.description}}</p>
+          <a routerLink="{{product.id}}" class="btn btn-primary">Посмотреть товар</a>
         </div>
       </div>
     </div>
@@ -19,10 +19,13 @@ import {ProductsService} from '../services/products.service';
 })
 
 export class ProductsListComponent implements OnInit {
+  protected products: [ProductModel];
+  constructor(private service: ProductsService,
 
-  constructor(private service: ProductsService) {}
+              ) {}
 
   ngOnInit() {
-    this.service.getProductByUserId(1);
+    this.service.getProductById(null).subscribe( (products: [ProductModel]) => this.products = products);
   }
+
 }
