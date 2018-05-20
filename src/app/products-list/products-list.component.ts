@@ -11,7 +11,7 @@ import {ProductModel} from '../models/product-model';
         <div class="card-body">
           <h5 class="card-title">{{product.name}}</h5>
           <p class="card-text">{{product.description}}</p>
-          <a routerLink="{{product.id}}" class="btn btn-primary">Посмотреть товар</a>
+          <a routerLink="/product/{{product.id}}" class="btn btn-primary">Посмотреть товар</a>
         </div>
       </div>
     </div>

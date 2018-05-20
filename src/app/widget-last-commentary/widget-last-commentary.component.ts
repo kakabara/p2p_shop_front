@@ -1,42 +1,36 @@
 import { Component, OnInit } from '@angular/core';
+import {CommentaryModel} from '../models/commentary-model';
+import {CommentariesService} from '../services/commentaries.service';
+import {ProductsService} from '../services/products.service';
+import {ProductModel} from '../models/product-model';
 
 @Component({
   selector: 'app-widget-last-commentary',
   template: `
     <div class="list-group">
-      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start active">
+      <p>Последнии комментарии:</p>
+      <a *ngFor="let comment of commentaries" routerLink="/products/{{comment.product_id}}"
+         class="list-group-item list-group-item-action flex-column align-items-start">
         <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
-          <small>3 days ago</small>
+          <!--<h5 class="mb-1">{{getProduct(comment.product_id).name}}</h5>-->
+          <small>{{comment.created_at}}</small>
         </div>
-        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-        <small>Donec id elit non mi porta.</small>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
-          <small class="text-muted">3 days ago</small>
-        </div>
-        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-        <small class="text-muted">Donec id elit non mi porta.</small>
-      </a>
-      <a href="#" class="list-group-item list-group-item-action flex-column align-items-start">
-        <div class="d-flex w-100 justify-content-between">
-          <h5 class="mb-1">List group item heading</h5>
-          <small class="text-muted">3 days ago</small>
-        </div>
-        <p class="mb-1">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
-        <small class="text-muted">Donec id elit non mi porta.</small>
+        <p class="mb-1">{{comment.text}}</p>
+        <small>asdasdadsd</small>
       </a>
     </div>
   `,
   styleUrls: ['./widget-last-commentary.component.css']
 })
 export class WidgetLastCommentaryComponent implements OnInit {
-
-  constructor() { }
+  commentaries: [CommentaryModel];
+  constructor(private commentariesService: CommentariesService) { }
 
   ngOnInit() {
+    this.commentariesService.getLatestCommentaries().subscribe((commentaries: [CommentaryModel]) => this.commentaries = commentaries);
+  }
+
+  private getProduct(product_id) {
   }
 
 }

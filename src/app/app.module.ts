@@ -13,12 +13,13 @@ import { LayoutComponent } from './layout/layout.component';
 import { RegistrationComponent } from './registration/registration.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { ProductPageComponent } from './product-page/product-page.component';
+import { MainPageComponent } from './main-page/main-page.component';
 
 
 
 const routes: Routes = [
   {
-    path: '', component: LayoutComponent,
+    path: '', component: MainPageComponent,
     children: [
       {
         path: 'products', component: ProductsListComponent
@@ -27,7 +28,7 @@ const routes: Routes = [
         path: 'registration', component: RegistrationComponent
       },
       {
-        path: 'products/:product_id', component: ProductPageComponent
+        path: 'product/:product_id', component: ProductPageComponent
       }
     ]
   }
@@ -42,6 +43,7 @@ const routes: Routes = [
     LayoutComponent,
     RegistrationComponent,
     ProductPageComponent,
+    MainPageComponent,
 
   ],
   imports: [
