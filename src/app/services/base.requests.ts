@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {  } from ''
-
+import { Subject } from 'rxjs';
 import * as url from 'url';
-import {HttpClient, HttpHeaders} from '@angular/common/http';
+import {HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class BaseRequests {
@@ -16,26 +16,55 @@ export class BaseRequests {
         'X-Auth-Token': token
       });
     }
-    this.options = {headers: this.headers};
+    this.options = {
+      headers: this.headers,
+      reportProgress: true
+    };
   }
 
   public get(path: string) {
-    return this.http.get(
-      url.resolve(this.baseUrl, path),
-      this.options
-    );
+    const req = new HttpRequest('GET',  url.resolve(this.baseUrl, path), this.options);
+    let subject = new Subject<any>();
+    this.http.request(req).subscribe((event) => {
+      if (event instanceof HttpResponse) {
+        subject.next(event.body);
+      }
+    });
+    return subject.asObservable();
   }
 
   public post(path: string, body) {
-    return this.http.post(url.resolve(this.baseUrl, path), JSON.stringify(body), this.options);
+    let subject = new Subject<any>();
+    const req = new HttpRequest('POST', url.resolve(this.baseUrl, path), body, this.options);
+    this.http.request(req).subscribe((event) => {
+      if (event instanceof HttpResponse) {
+        subject.next(event.body);
+      }
+    });
+    return subject.asObservable();
   }
 
   public delete(path: string) {
-    return this.http.delete(url.resolve(this.baseUrl, path), this.options);
+    let subject = new Subject<any>();
+    const req = new HttpRequest('DELETE', url.resolve(this.baseUrl, path), this.options);
+    this.http.request(req).subscribe((event) => {
+      if (event instanceof HttpResponse) {
+        subject.next(event.body);
+      }
+    });
+    return subject.asObservable();
   }
 
   public patch(path: string, body) {
-    return this.http.patch(url.resolve(this.baseUrl, path), JSON.stringify(body), this.options);
+    let subject = new Subject<any>();
+    const req = new HttpRequest('PATCH', url.resolve(this.baseUrl, path), JSON.stringify(body), this.options );
+    this.http.request(req).subscribe((event) => {
+      if (event instanceof HttpResponse) {
+        subject.next(event.body);
+      }
+    });
+    return subject.asObservable();
   }
+
 
 }

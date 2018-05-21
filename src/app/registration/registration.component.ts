@@ -26,7 +26,7 @@ import {Router} from '@angular/router';
 })
 export class RegistrationComponent implements OnInit {
 
-  private form: FormGroup;
+  protected form: FormGroup;
   constructor(private authService: AuthService,
               private router: Router) { }
 

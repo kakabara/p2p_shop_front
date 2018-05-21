@@ -14,6 +14,7 @@ import { RegistrationComponent } from './registration/registration.component';
 import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProductPageComponent } from './product-page/product-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
+import { CreateProductComponent } from './create-product/create-product.component';
 
 
 
@@ -32,6 +33,15 @@ const routes: Routes = [
       },
       {
         path: 'product/:product_id', component: ProductPageComponent
+      },
+      {
+        path: 'favorites', component: ProductsListComponent
+      },
+      {
+        path: 'your-products', component: ProductsListComponent
+      },
+      {
+        path: 'add-product', component: CreateProductComponent
       }
     ]
   }
@@ -47,6 +57,7 @@ const routes: Routes = [
     RegistrationComponent,
     ProductPageComponent,
     MainPageComponent,
+    CreateProductComponent,
 
   ],
   imports: [

@@ -16,7 +16,7 @@ import {ProductModel} from '../models/product-model';
           <small>{{comment.created_at}}</small>
         </div>
         <p class="mb-1">{{comment.text}}</p>
-        <small>asdasdadsd</small>
+        <small>{{comment.user.login}}</small>
       </a>
     </div>
   `,

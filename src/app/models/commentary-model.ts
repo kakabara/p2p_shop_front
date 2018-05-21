@@ -1,4 +1,5 @@
 import {ProductModel} from './product-model';
+import {UserModel} from './user-model';
 
 export interface CommentaryModel {
   id;
@@ -7,4 +8,5 @@ export interface CommentaryModel {
   user_id;
   created_at: Date;
   product: ProductModel;
+  user: UserModel;
 }

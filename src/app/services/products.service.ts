@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {BaseRequests} from './base.requests';
-import {HttpClient, HttpHeaders, HttpRequest} from '@angular/common/http';
+import {HttpClient, HttpHeaders, HttpParams, HttpRequest} from '@angular/common/http';
 
 @Injectable()
 export class ProductsService {
@@ -13,6 +13,18 @@ export class ProductsService {
       reqUrl = reqUrl + id;
     }
     return this.request.get(reqUrl);
+   }
+
+   public getFavoriteProduct() {
+    return this.request.get('/favorites');
+   }
+
+   public getProductByUser() {
+    return this.request.get('/user-products');
+   }
+
+   public createProduct(body) {
+    return this.request.post('/create-product', body);
    }
 }
 

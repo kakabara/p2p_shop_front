@@ -1,5 +1,6 @@
 import {Component, Input, OnDestroy, OnInit, Output} from '@angular/core';
 import {AuthService} from '../services/auth.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-top-bar',
@@ -14,11 +15,12 @@ import {AuthService} from '../services/auth.service';
         <div class="navbar-nav">
           <a class="nav-item nav-link" routerLink="">Главная</a>
           <a class="nav-item nav-link" routerLink='/products' [routerLinkActive]="['active']">Список товаров</a>
-          <a class="nav-item nav-link" [ngClass] ="{'disabled': getAuth()}">Избранное</a>
-          <a class="nav-item nav-link" [ngClass] ="{'disabled': getAuth()}">Ваши Товары</a>
+          <a class="nav-item nav-link"  routerLink='/favorites' [ngClass] ="{'disabled': !authToken}">Избранное</a>
+          <a class="nav-item nav-link" routerLink='/your-products' [ngClass] ="{'disabled': !authToken}">Ваши Товары</a>
+          <a class="nav-item nav-link" routerLink='/add-product' [ngClass] ="{'disabled': !authToken}">Добавить товар</a>
         </div>
       </div>
-      <div class="col-sm-6 row" *ngIf="!getAuth()">
+      <div class="col-sm-6 row" *ngIf="!authToken">
         <div class="form-inline">
           <input [(ngModel)]="login" name="login" class="form-control mr-sm-2" type="text" placeholder="Логин" aria-label="Login">
           <input [(ngModel)]="password" class="form-control mr-sm-2" type="password" placeholder="Пароль" aria-label="Password">
@@ -28,27 +30,32 @@ import {AuthService} from '../services/auth.service';
         </div>
       <button type="button" class="btn btn-outline-dark ml-1" routerLink="/registration" >Регистрация</button>
       </div>
-      <div *ngIf="getAuth()">
+      <div *ngIf="authToken">
       <button type="button" (click)="logout()" class="btn btn-outline-danger">Выйти</button>
       </div>
     </nav>
   `,
 })
 export class TopBarComponent implements OnInit, OnDestroy {
-  private authToken;
   login: string;
   password: string;
   destroyAuth = false;
-  @Output() action;
-  constructor(private authService: AuthService) { }
+  authToken: string |undefined;
+  constructor(private authService: AuthService,
+              private router: Router) { }
 
   ngOnInit() {
-  }
-  private getAuth() {
-    return localStorage.getItem('authToken');
+    if (localStorage.getItem('destroy') ? localStorage.getItem('destroy') : undefined) {
+      localStorage.removeItem('authToken');
+      localStorage.removeItem('destroy');
+    }
+    this.changeAuth();
   }
 
+
   private logout() {
+    this.router.navigate(['']);
+    this.authToken = undefined;
     localStorage.removeItem('authToken');
   }
 
@@ -58,10 +65,21 @@ export class TopBarComponent implements OnInit, OnDestroy {
     }
   }
 
+  changeAuth() {
+    this.authToken = localStorage.getItem('authToken') ? localStorage.getItem('authToken') : undefined;
+  }
+
   private authorization() {
     if (this.login && this.password) {
       this.authService.auhtorization(this.login, this.password)
-        .subscribe( data => localStorage.setItem('authToken', data['authToken']), () => alert('Неверные данные'));
+        .subscribe( data => {
+          localStorage.setItem('authToken', data['authToken']);
+            this.changeAuth();
+          }
+        , () => alert('Неверные данные'));
+    }
+    if (this.destroyAuth) {
+      localStorage.setItem('destroy', 'true');
     }
   }
 
