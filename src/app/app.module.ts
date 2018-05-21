@@ -11,7 +11,7 @@ import { HttpClientModule} from '@angular/common/http';
 import {RouterModule, Routes} from '@angular/router';
 import { LayoutComponent } from './layout/layout.component';
 import { RegistrationComponent } from './registration/registration.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProductPageComponent } from './product-page/product-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 
@@ -19,8 +19,11 @@ import { MainPageComponent } from './main-page/main-page.component';
 
 const routes: Routes = [
   {
-    path: '', component: MainPageComponent,
+    path: '', component: LayoutComponent,
     children: [
+      {
+        path: '', component: MainPageComponent
+      },
       {
         path: 'products', component: ProductsListComponent
       },
@@ -47,6 +50,7 @@ const routes: Routes = [
 
   ],
   imports: [
+    FormsModule,
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,

@@ -7,12 +7,17 @@ import {HttpClient, HttpHeaders} from '@angular/common/http';
 @Injectable()
 export class BaseRequests {
   baseUrl = 'http://127.0.0.1:5000/';
-  headers: HttpHeaders = new HttpHeaders({
-    'X-Auth-Token': localStorage.getItem('authToken')
-  });
-  options = {headers: this.headers};
-
-  constructor(private http: HttpClient) {}
+  headers: HttpHeaders;
+  options: {};
+  constructor(private http: HttpClient) {
+    const token = localStorage.getItem('authToken');
+    if (token) {
+      this.headers = new HttpHeaders({
+        'X-Auth-Token': token
+      });
+    }
+    this.options = {headers: this.headers};
+  }
 
   public get(path: string) {
     return this.http.get(

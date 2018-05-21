@@ -1,25 +1,45 @@
 import { Component, OnInit } from '@angular/core';
 import {FormControl, FormGroup, Validators} from '@angular/forms';
+import {AuthService} from '../services/auth.service';
 
 @Component({
   selector: 'app-registration',
-  templateUrl: './registration.component.html',
+  template: `
+    <div class="col-sm-12">
+      <div style="display: flex; justify-content: center; align-items: center" class="mt-5">
+        <form class="form-group" [formGroup]="form" (ngSubmit)="onSubmit()">
+          <label for="login">Имя</label>
+          <input  id="login" type="text" class="form-control" placeholder="Введите имя" formControlName="login">
+          <label for="password">Пароль</label>
+          <input  id="password" type="text" class="form-control" placeholder="Введите пароль" formControlName="password">
+          <label for="phone">Телефон</label>
+          <input  id="phone" type="text" class="form-control" placeholder="Введите телефон" formControlName="phone">
+          <input type="submit" value="Зарегестрироваться" class="btn btn-outline-success mt-3" [disabled]="form.invalid">
+        </form>
+      </div>
+    </div>
+
+
+  `,
   styleUrls: ['./registration.component.css']
 })
 export class RegistrationComponent implements OnInit {
 
   private form: FormGroup;
-  constructor() { }
+  constructor(private authService: AuthService) { }
 
   ngOnInit() {
     this.form = new FormGroup({
-      name: new FormControl(null, [Validators.required]),
+      login: new FormControl(null, [Validators.required]),
       password: new FormControl(null, [Validators.required]),
       phone: new FormControl(null, [Validators.required])
     });
   }
 
   protected onSubmit() {
-    console.log(this.form.value);
+    if (this.form.value.login && this.form.value.password && this.form.value.phone) {
+      this.authService.registration(this.form.value.login, this.form.value.password, this.form.value.phone).subscribe( data => console.log(data));
+    }
   }
+
 }
