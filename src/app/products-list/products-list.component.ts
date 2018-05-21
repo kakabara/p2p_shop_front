@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import {ProductsService} from '../services/products.service';
 import {ProductModel} from '../models/product-model';
 import {current} from 'codelyzer/util/syntaxKind';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-products-list',
@@ -42,10 +43,14 @@ export class ProductsListComponent implements OnInit {
   protected productsOnPage = 6;
   protected countPages = 1;
   protected currentPage = 1;
-  constructor(private service: ProductsService
+  constructor(private service: ProductsService,
+              private router: Router
               ) {}
 
   ngOnInit() {
+    if (this.router.isActive('products', true)) {
+      this.productsOnPage = 10;
+    }
     this.service.getProductById(null).subscribe( (products: [ProductModel]) => {
       this.allProducts = products;
       this.countPages = Math.ceil(this.allProducts.length / this.productsOnPage);

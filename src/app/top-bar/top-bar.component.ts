@@ -18,7 +18,7 @@ import {AuthService} from '../services/auth.service';
           <a class="nav-item nav-link" [ngClass] ="{'disabled': getAuth()}">Ваши Товары</a>
         </div>
       </div>
-      <div class="col-sm-5 row" *ngIf="!getAuth()">
+      <div class="col-sm-6 row" *ngIf="!getAuth()">
         <div class="form-inline">
           <input [(ngModel)]="login" name="login" class="form-control mr-sm-2" type="text" placeholder="Логин" aria-label="Login">
           <input [(ngModel)]="password" class="form-control mr-sm-2" type="password" placeholder="Пароль" aria-label="Password">
