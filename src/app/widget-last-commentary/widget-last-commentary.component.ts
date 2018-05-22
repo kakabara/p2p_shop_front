@@ -7,7 +7,7 @@ import {ProductModel} from '../models/product-model';
 @Component({
   selector: 'app-widget-last-commentary',
   template: `
-    <div class="list-group">
+    <div class="list-group mr-0">
       <p>Последнии комментарии:</p>
       <a *ngFor="let comment of commentaries" routerLink="/product/{{comment.product_id}}"
          class="list-group-item list-group-item-action flex-column align-items-start">
@@ -27,7 +27,8 @@ export class WidgetLastCommentaryComponent implements OnInit {
   constructor(private commentariesService: CommentariesService) { }
 
   ngOnInit() {
-    this.commentariesService.getLatestCommentaries().subscribe((commentaries: [CommentaryModel]) => this.commentaries = commentaries);
+    this.commentariesService.getLatestCommentaries()
+      .subscribe((commentaries: [CommentaryModel]) => this.commentaries = commentaries);
   }
 
   private getProduct(product_id) {

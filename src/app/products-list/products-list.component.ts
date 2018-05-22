@@ -43,7 +43,7 @@ import {Router} from '@angular/router';
 export class ProductsListComponent implements OnInit {
   protected products: ProductModel[];
   protected allProducts: ProductModel[];
-  protected productsOnPage = 6;
+  protected productsOnPage = 10;
   protected countPages = 1;
   protected currentPage = 1;
   constructor(private service: ProductsService,

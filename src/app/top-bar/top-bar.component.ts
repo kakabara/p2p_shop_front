@@ -15,7 +15,7 @@ import {Router} from '@angular/router';
         <div class="navbar-nav">
           <a class="nav-item nav-link" routerLink="">Главная</a>
           <a class="nav-item nav-link" routerLink='/products' [routerLinkActive]="['active']">Список товаров</a>
-          <a class="nav-item nav-link"  routerLink='/favorites' [ngClass] ="{'disabled': !authToken}">Избранное</a>
+          <a class="nav-item nav-link" routerLink='/favorites' [ngClass] ="{'disabled': !authToken}">Избранное</a>
           <a class="nav-item nav-link" routerLink='/your-products' [ngClass] ="{'disabled': !authToken}">Ваши Товары</a>
           <a class="nav-item nav-link" routerLink='/add-product' [ngClass] ="{'disabled': !authToken}">Добавить товар</a>
         </div>
@@ -75,6 +75,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
         .subscribe( data => {
           localStorage.setItem('authToken', data['authToken']);
             this.changeAuth();
+            this.router.navigate(['']);
           }
         , () => alert('Неверные данные'));
     }

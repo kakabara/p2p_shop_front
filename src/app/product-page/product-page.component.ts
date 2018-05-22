@@ -12,7 +12,8 @@ import {ProductModel} from '../models/product-model';
           <h5 class="card-title">{{product.name}}</h5>
           <img class="card-img-top" src="http://127.0.0.1:5000/images/{{product.image_hash}}" alt="Card image cap">
           <div class="card-body">
-            <p class="card-text">{{product.description}}</p>
+            <p class="card-text">Цена: {{product.price}}</p>
+            <p class="card-text">Описание {{product.description}}</p>
           </div>
         </div>
         </div>
