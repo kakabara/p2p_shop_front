@@ -15,4 +15,8 @@ export class AuthService {
   public registration(login, password, phone) {
     return this.request.post('/registration', {login: login, password: password, phone: phone});
   }
+
+  public getUserInfo() {
+    return this.request.get('/authorizations/?auth_token=' + localStorage.getItem('authToken'));
+  }
 }

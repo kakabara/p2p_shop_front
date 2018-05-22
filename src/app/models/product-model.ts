@@ -10,4 +10,5 @@ export interface ProductModel {
   image_hash: string;
   bought_by: number | undefined;
   buyer: UserModel | undefined;
+  user: UserModel | undefined;
 }

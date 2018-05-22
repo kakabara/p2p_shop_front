@@ -15,6 +15,7 @@ import {FormsModule, ReactiveFormsModule} from '@angular/forms';
 import { ProductPageComponent } from './product-page/product-page.component';
 import { MainPageComponent } from './main-page/main-page.component';
 import { CreateProductComponent } from './create-product/create-product.component';
+import { CommentaryAnswerComponent } from './commentary-answer/commentary-answer.component';
 
 
 
@@ -58,6 +59,7 @@ const routes: Routes = [
     ProductPageComponent,
     MainPageComponent,
     CreateProductComponent,
+    CommentaryAnswerComponent,
 
   ],
   imports: [

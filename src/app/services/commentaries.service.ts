@@ -8,10 +8,13 @@ export class CommentariesService {
 
   constructor(private request: BaseRequests) { }
 
+  public create(data) {
+    return this.request.post('/commentaries/', JSON.stringify(data));
+  }
   public getLatestCommentaries() {
     return this.request.get('/commentaries/');
   }
   public getCommentariesByProductId(product_id) {
-    return this.request.get('/commentaries/' + product_id);
+    return this.request.get('/commentaries/?product_id=' + product_id);
   }
 }

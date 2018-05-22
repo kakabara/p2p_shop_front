@@ -46,8 +46,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     if (localStorage.getItem('destroy') ? localStorage.getItem('destroy') : undefined) {
-      localStorage.removeItem('authToken');
-      localStorage.removeItem('destroy');
+      localStorage.clear();
     }
     this.changeAuth();
   }
@@ -74,6 +73,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
       this.authService.auhtorization(this.login, this.password)
         .subscribe( data => {
           localStorage.setItem('authToken', data['authToken']);
+            localStorage.setItem('user_id', data['user_id']);
             this.changeAuth();
             this.router.navigate(['']);
           }

@@ -1,5 +1,6 @@
 import {ProductModel} from './product-model';
 import {UserModel} from './user-model';
+import {AnswerModel} from './answer-model';
 
 export interface CommentaryModel {
   id;
@@ -9,4 +10,5 @@ export interface CommentaryModel {
   created_at: Date;
   product: ProductModel;
   user: UserModel;
+  answer: AnswerModel | undefined;
 }
