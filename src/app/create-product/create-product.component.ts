@@ -71,6 +71,6 @@ export class CreateProductComponent implements OnInit {
   }
 
   private getAuth() {
-    return localStorage.getItem('authToken')
+    return localStorage.getItem('authToken');
   }
 }

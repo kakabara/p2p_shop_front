@@ -1,8 +1,7 @@
 import {Injectable} from '@angular/core';
 import { Subject } from 'rxjs';
 import * as url from 'url';
-import {HttpClient, HttpEvent, HttpEventType, HttpHeaders, HttpParams, HttpRequest, HttpResponse} from '@angular/common/http';
-import { map } from 'rxjs/operators';
+import {HttpClient, HttpHeaders, HttpRequest, HttpResponse} from '@angular/common/http';
 
 @Injectable()
 export class BaseRequests {
@@ -57,7 +56,7 @@ export class BaseRequests {
 
   public patch(path: string, body) {
     let subject = new Subject<any>();
-    const req = new HttpRequest('PATCH', url.resolve(this.baseUrl, path), JSON.stringify(body), this.options );
+    const req = new HttpRequest('PATCH', url.resolve(this.baseUrl, path), body, this.options );
     this.http.request(req).subscribe((event) => {
       if (event instanceof HttpResponse) {
         subject.next(event.body);

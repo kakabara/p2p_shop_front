@@ -17,4 +17,8 @@ export class CommentariesService {
   public getCommentariesByProductId(product_id) {
     return this.request.get('/commentaries/?product_id=' + product_id);
   }
+
+  public update(comment_id, body) {
+    return this.request.patch('/commentaries/' + comment_id, JSON.stringify(body));
+  }
 }

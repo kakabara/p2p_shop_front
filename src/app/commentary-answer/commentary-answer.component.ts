@@ -2,11 +2,14 @@ import {Component, Input, OnInit} from '@angular/core';
 import {CommentaryModel} from '../models/commentary-model';
 import {UserModel} from '../models/user-model';
 import {AuthService} from '../services/auth.service';
+import {AnswerService} from '../services/answer.service';
+import {CommentariesService} from '../services/commentaries.service';
 
 @Component({
   selector: 'app-commentary-answer',
   template: `
-    <a routerLink="/product/{{comment.product_id}}" class="list-group-item list-group-item-action flex-column align-items-start">
+    <a *ngIf="comment" routerLink="/product/{{comment.product_id}}"
+       class="list-group-item list-group-item-action flex-column align-items-start">
       <div class="d-flex w-100 justify-content-between">
         <h5 class="mb-1">{{comment.product.name}}</h5>
         <small>{{comment.created_at}}</small>
@@ -20,25 +23,27 @@ import {AuthService} from '../services/auth.service';
         <small>Ответ от: {{comment.answer.user.login}}</small>
       </div>
     </a>
-    <div *ngIf="showAnswerForm()">
+    <div *ngIf="showAnswerForm()" class="mb-4">
       <div class="form-group">
-        <label for="exampleFormControlTextarea1">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        <label for="exampleFormControlTextarea1">Ответить на вопрос</label>
+        <textarea [(ngModel)]="answerText" class="form-control" id="exampleFormControlTextarea1" rows="1"></textarea>
       </div>
-      <button type="button" class="btn btn-success">Success</button>
+      <button type="button" (click)="createAnswer()" class="btn btn-success">Ответить</button>
     </div>
   `,
   styleUrls: ['./commentary-answer.component.css']
 })
 export class CommentaryAnswerComponent implements OnInit {
   @Input() comment: CommentaryModel;
-  constructor() { }
+  protected answerText: string;
+  constructor(private answerService: AnswerService,
+              private commentaryService: CommentariesService) { }
 
   ngOnInit() {
   }
 
   private userIsOwner() {
-      return localStorage.getItem('user_id') === this.comment.product.user_id;
+      return +localStorage.getItem('user_id') === this.comment.product.user_id;
   }
 
   private showAnswerForm() {
@@ -47,6 +52,21 @@ export class CommentaryAnswerComponent implements OnInit {
 
   private hasAnswer() {
     return this.comment['answer']['text'];
+  }
+
+  private createAnswer() {
+    const body = {
+      user_id: +localStorage.getItem('user_id'),
+      text: this.answerText
+    };
+
+    this.answerService.createAnswer(body).subscribe( answer => {
+      this.comment.answer_id = answer['id'];
+      this.commentaryService.update(this.comment.id, {answer_id: answer['id']}).subscribe(comment => {
+        this.comment = comment;
+      });
+
+    });
   }
 
 }

@@ -25,14 +25,15 @@ import {Router} from '@angular/router';
           </li>
         </ul>
       </nav>
-      <div class="row ml-4 mt-4">
+      <div class="row col-11 ml-3 mt-4">
         <div *ngFor="let product of products" class="card mt-3 mr-3">
-          <img class="card-img-top" style="max-width: 200px; max-height: 200px;"
+          <img class="card-img-top" style="max-width: 300px; max-height: 300px;"
                src="http://127.0.0.1:5000/images/{{product.image_hash}}" alt="Card image cap">
           <div class="card-body">
             <h5 class="card-title">{{product.name}}</h5>
             <p class="card-text">{{product.description}}</p>
             <a routerLink="/product/{{product.id}}" class="btn btn-primary">Посмотреть товар</a>
+            <button *ngIf="getUserId()" (click)="buyProduct(product.id)" type="button" class="btn btn-outline-success ml-4">Купить</button>
           </div>
         </div>
       </div>
@@ -66,15 +67,15 @@ export class ProductsListComponent implements OnInit {
     }
     if (this.router.isActive('products', true) || this.router.isActive('', true)) {
 
-      this.service.getProductById(null).subscribe((products: [ProductModel]) => {
+      this.service.getAllProducts().subscribe((products: [ProductModel]) => {
         this.allProducts = products;
         this.countPages = Math.ceil(this.allProducts.length / this.productsOnPage);
         this.getSliceProduct();
       });
     }
     if (this.router.isActive('your-products', true)) {
-
-      this.service.getProductByUser().subscribe((products: [ProductModel]) => {
+      const user_id = localStorage.getItem('user_id');
+      this.service.getProductByUser(user_id).subscribe((products: [ProductModel]) => {
         console.log(products);
         this.allProducts = products;
         this.countPages = Math.ceil(this.allProducts.length / this.productsOnPage);
@@ -108,5 +109,13 @@ export class ProductsListComponent implements OnInit {
 
   protected getSliceProduct() {
     this.products = this.allProducts.slice((this.currentPage - 1) * this.productsOnPage, this.currentPage * this.productsOnPage);
+  }
+
+  private getUserId() {
+    return localStorage.getItem('user_id');
+  }
+
+  private buyProduct(product_id) {
+    this.service.buyProduct(this.getUserId(), product_id).subscribe( data => this.router.navigate(['products', data['id']]));
   }
 }

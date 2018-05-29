@@ -11,4 +11,5 @@ export interface CommentaryModel {
   product: ProductModel;
   user: UserModel;
   answer: AnswerModel | undefined;
+  answer_id: number;
 }

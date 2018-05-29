@@ -31,7 +31,8 @@ import {Router} from '@angular/router';
       <button type="button" class="btn btn-outline-dark ml-1" routerLink="/registration" >Регистрация</button>
       </div>
       <div *ngIf="authToken">
-      <button type="button" (click)="logout()" class="btn btn-outline-danger">Выйти</button>
+        <p class="card-text border-bottom">Вы, {{ getLogin() }}</p>
+        <button type="button" (click)="logout()" class="btn btn-outline-danger">Выйти</button>
       </div>
     </nav>
   `,
@@ -55,7 +56,7 @@ export class TopBarComponent implements OnInit, OnDestroy {
   private logout() {
     this.router.navigate(['']);
     this.authToken = undefined;
-    localStorage.removeItem('authToken');
+    localStorage.clear();
   }
 
   ngOnDestroy() {
@@ -72,8 +73,9 @@ export class TopBarComponent implements OnInit, OnDestroy {
     if (this.login && this.password) {
       this.authService.auhtorization(this.login, this.password)
         .subscribe( data => {
-          localStorage.setItem('authToken', data['authToken']);
+          localStorage.setItem('authToken', data['auth_token']);
             localStorage.setItem('user_id', data['user_id']);
+            localStorage.setItem('user_login', data['user']['login']);
             this.changeAuth();
             this.router.navigate(['']);
           }
@@ -82,6 +84,10 @@ export class TopBarComponent implements OnInit, OnDestroy {
     if (this.destroyAuth) {
       localStorage.setItem('destroy', 'true');
     }
+  }
+
+  private getLogin() {
+    return localStorage.getItem('user_login');
   }
 
 }
